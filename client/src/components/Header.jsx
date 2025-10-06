@@ -1,4 +1,5 @@
 import { Recycle, User, Menu } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { Button } from './ui/button.jsx'
 
 export default function Header({ onMenuClick }) {
@@ -19,21 +20,21 @@ export default function Header({ onMenuClick }) {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#home" className="text-foreground hover:text-primary transition-colors">
+            <Link to="/" className="text-foreground hover:text-primary">
               Home
-            </a>
-            <a href="#locate" className="text-foreground hover:text-primary transition-colors">
-              Find Centers
-            </a>
-            <a href="#scan" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/recycling-centers" className="hover:text-primary">
+              Recycling Centers
+            </Link>
+            {/*<Link to="#scan" className="text-foreground hover:text-primary transition-colors">
               Scan Waste
-            </a>
-            <a href="#community" className="text-foreground hover:text-primary transition-colors">
+            </Link>*/}
+            <Link to="#community" className="text-foreground hover:text-primary transition-colors">
               Community
-            </a>
-            <a href="#wastepicker" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/wastepicker-dashboard" className="text-foreground hover:text-primary transition-colors">
               For Wastepickers
-            </a>
+            </Link>
           </nav>
 
           {/* User Actions */}

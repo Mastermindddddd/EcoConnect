@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header.jsx'
 import HeroSection from './components/HeroSection.jsx'
 import WasteScanner from './components/WasteScanner.jsx'
@@ -15,18 +16,32 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header onMenuClick={handleMenuClick} />
-      
-      <main>
-        <HeroSection />
-        <WasteScanner />
-        <RecyclingCenters />
-        <WastepickerDashboard />
-      </main>
-      
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen bg-background">
+        <Header onMenuClick={handleMenuClick} />
+
+        <main>
+          <Routes>
+            {/* Home page */}
+            <Route
+              path="/"
+              element={
+                <>
+                  <HeroSection />
+                  <WasteScanner />
+                </>
+              }
+            />
+
+            {/* Recycling centers page */}
+            <Route path="/wastepicker-dashboard" element={<WastepickerDashboard />} />
+            <Route path="/recycling-centers" element={<RecyclingCenters />} />
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
+    </Router>
   )
 }
 
