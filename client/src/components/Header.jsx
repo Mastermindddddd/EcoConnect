@@ -39,13 +39,17 @@ export default function Header({ onMenuClick }) {
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" className="hidden sm:flex">
-              <User className="w-4 h-4 mr-2" />
-              Sign In
-            </Button>
-            <Button size="sm" className="hidden sm:flex eco-button-primary">
-              Get Started
-            </Button>
+            <Link to="/login">
+              <Button variant="ghost" size="sm" className="hidden sm:flex">
+                <User className="w-4 h-4 mr-2" />
+                Sign In
+              </Button>
+            </Link>
+            <Link to="/registration">
+              <Button size="sm" className="hidden sm:flex eco-button-primary">
+                Get Started
+              </Button>
+            </Link>
             
             {/* Mobile Menu Button */}
             <Button 

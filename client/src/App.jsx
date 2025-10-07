@@ -6,6 +6,8 @@ import WasteScanner from './components/WasteScanner.jsx'
 import RecyclingCenters from './components/RecyclingCenters.jsx'
 import WastepickerDashboard from './components/WastepickerDashboard.jsx'
 import Footer from './components/Footer.jsx'
+import RegistrationForm from './pages/RegistrationForm.jsx'
+import LoginForm from './pages/LoginForm.jsx'
 import './App.css'
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
             {/* Recycling centers page */}
             <Route path="/wastepicker-dashboard" element={<WastepickerDashboard />} />
             <Route path="/recycling-centers" element={<RecyclingCenters />} />
+            <Route path="/registration" element={<RegistrationForm />} />
+            <Route path="/login" element={<LoginForm />} />
           </Routes>
         </main>
 
