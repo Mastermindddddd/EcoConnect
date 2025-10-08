@@ -36,6 +36,7 @@ def register_user():
     
     db.session.add(user)
     db.session.commit()
+    return jsonify({'message': 'User registered successfully', 'user': user.to_dict()}), 201
 
 @user_bp.route('/login', methods=['POST'])
 def login_user():
@@ -61,12 +62,22 @@ def logout_user():
     return jsonify({'message': 'Logged out successfully'}), 200
 
 
+
 @user_bp.route('/session', methods=['GET'])
-def check_session():
+def get_session():
+    """Check if user is still logged in"""
     if 'user_id' in session:
         user = User.query.get(session['user_id'])
         if user:
-            return jsonify({'logged_in': True, 'user': user.to_dict()})
+            return jsonify({
+                'logged_in': True,
+                'user': {
+                    'id': user.id,
+                    'email': user.email,
+                    'first_name': user.first_name,
+                    'last_name': user.last_name,
+                    'username': user.username
+                }
+            })
     return jsonify({'logged_in': False}), 200
 
-    return jsonify({'message': 'User registered successfully', 'user': user.to_dict()}), 201

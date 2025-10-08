@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
-  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")) || null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,22 +18,29 @@ const LoginForm = () => {
       const res = await axios.post(
         "http://localhost:5000/api/login",
         formData,
-        { withCredentials: true } // allows Flask session cookie
+        { withCredentials: true }
       );
-      setUser(res.data.user);
+
+      // Save user data
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      // Show success message
       setMessage(res.data.message);
+
+      // Small delay so message flashes quickly before redirect
+      setTimeout(() => {
+        navigate("/");  // redirect to home
+        window.location.reload(); // refresh app to show header change
+      }, 500);
     } catch (err) {
-      if (err.response) {
-        setMessage(err.response.data.error);
-      } else {
-        setMessage("An error occurred. Please try again.");
-      }
+      setMessage(err.response?.data?.error || "An error occurred. Please try again.");
     }
   };
 
   const handleLogout = async () => {
     await axios.post("http://localhost:5000/api/logout", {}, { withCredentials: true });
     setUser(null);
+    localStorage.removeItem("user");
     setMessage("Logged out successfully");
   };
 
@@ -43,24 +49,8 @@ const LoginForm = () => {
       <h2>User Login</h2>
       {!user ? (
         <form onSubmit={handleSubmit} style={styles.form}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            style={styles.input}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            style={styles.input}
-            required
-          />
+          <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} style={styles.input} required />
+          <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} style={styles.input} required />
           <button type="submit" style={styles.button}>Login</button>
         </form>
       ) : (
